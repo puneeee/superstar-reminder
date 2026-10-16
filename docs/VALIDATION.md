@@ -13,6 +13,12 @@
 
 The SDK needed a temporary process-ID mapping shim to run build tooling in this cloud sandbox. That shim lives outside the repository, is not part of the app, and is not needed on ordinary Windows/macOS development machines.
 
+## GitHub Actions verification
+
+The public repository CI ran the live database checks against **MySQL 8.4**. The first run exposed MySqlConnector's automatic CHAR(36)-to-Guid conversion; the repository now explicitly reads CHAR UUIDs as strings. The corrected run passed **all 9 integration checks**: weekday/TIME round trips, idempotent occurrence generation, one-time consumption, durable exactly-once snooze, response history, and soft deletion with title preservation.
+
+Together with scheduling and UI checks, **51 distinct automated checks** are covered. Native desktop acceptance criteria below remain separate from headless checks.
+
 ## Still requires platform acceptance testing
 
 This workspace is Linux, with no access to the user's Windows D: drive or a real Mac desktop. Cross-publishing does not prove native desktop behavior.
