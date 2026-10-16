@@ -14,7 +14,7 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.3" />
     <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="MySqlConnector" Version="2.4.0" />
+    <PackageReference Include="MySqlConnector" Version="2.6.2" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets/Characters/**/*" CopyToOutputDirectory="PreserveNewest" />
