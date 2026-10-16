@@ -6,7 +6,7 @@ namespace SuperstarReminder.Persistence;
 
 public sealed class MySqlReminderRepository(string connectionString) : IReminderRepository
 {
-    private MySqlConnection Open() => new(connectionString);
+    private MySqlConnection Open() => new(new MySqlConnectionStringBuilder(connectionString){GuidFormat=MySqlGuidFormat.None}.ConnectionString);
     private const string SelectReminder = """
         SELECT id Id,title Title,message Message,enabled Enabled,schedule_type ScheduleType,starts_at_utc StartsAt,
         interval_minutes IntervalMinutes,timezone_id TimeZoneId,active_from ActiveFrom,active_to ActiveTo,
