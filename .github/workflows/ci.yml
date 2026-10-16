@@ -1,0 +1,58 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: macos-latest
+            rid: osx-arm64
+          - os: macos-latest
+            rid: osx-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet restore SuperstarReminder.sln
+      - run: dotnet build SuperstarReminder.sln --configuration Release --no-restore
+      - run: dotnet run --project tests/SuperstarReminder.Tests --configuration Release
+      - run: dotnet run --project tests/SuperstarReminder.UiTests --configuration Release
+      - run: dotnet publish src/SuperstarReminder --configuration Release --runtime ${{ matrix.rid }} --self-contained true --output artifacts/${{ matrix.rid }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SuperstarReminder-${{ matrix.rid }}
+          path: artifacts/${{ matrix.rid }}
+  mysql:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci-test-only-root
+          MYSQL_DATABASE: superstar_reminder_test
+          MYSQL_USER: superstar_test
+          MYSQL_PASSWORD: ci-test-only-app
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet run --project tests/SuperstarReminder.DatabaseTests --configuration Release
+        env:
+          SUPERSTAR_MYSQL_TEST_CONNECTION: Server=127.0.0.1;Database=superstar_reminder_test;User ID=superstar_test;Password=ci-test-only-app;

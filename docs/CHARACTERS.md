@@ -1,0 +1,9 @@
+# Character packages
+
+The bundled twelve-frame Rajinikanth/Jailer-inspired asset was newly generated for this project using the built-in image-generation tool. It is not film footage. The animation is an initial short sprite loop and needs motion review on real desktops. The second compact package exercises loading an additional package with the same character and different defaults; it is not a second distinct performer.
+
+Generation prompt: Create a transparent PNG sprite sheet of 12 full-body, photorealistic Rajinikanth cutouts inspired by Jailer, in a 4-column / 3-row layout. Keep salt-and-pepper hair and beard, dark rectangular sunglasses, beige shirt, dark trousers and black shoes consistent. Row 1: two idle poses, two happy thumbs-up poses. Row 2: four right-facing walking gait frames. Row 3: four right-facing running gait frames. No background, text, logos, or film-poster elements. Align feet and keep consistent scale. The generated sheet is split into PNG frames with a shared transparent canvas and foot baseline for the app.
+
+To add a character, install a directory under `Assets/Characters` beside the executable. Include `character.json` with `id`, `displayName`, `defaultHeightFraction` (0.12–0.30), and `actions`. Each action includes `frames`, a list of relative PNG file paths. Actions are `enter`, `idle`, `happy`, `walkLeft`, `walkRight`, `runLeft`, and `runRight`. Each frame should use the same canvas, foot baseline, and scale. The player currently advances at 110 ms per frame. Missing actions fall back to idle. Paths outside the package are rejected. Restart to rescan packages.
+
+The first package contains right-facing movement frames which the player mirrors for leftward movement. Packages without text or asymmetric logos are most suitable for this initial player. Per-action timing and dedicated non-mirrored left-side rendering remain improvements for future asset packs.

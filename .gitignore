@@ -1,0 +1,14 @@
+bin/
+obj/
+.vs/
+.idea/
+*.user
+*.suo
+appsettings.Local.json
+media/
+artifacts/
+.env
+*.enc
+response-recovery.json
+
+.avalonia-build-tasks/
