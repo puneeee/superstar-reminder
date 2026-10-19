@@ -114,7 +114,7 @@ public sealed class DesktopOverlay : IDisposable
         {
             Stage=OverlayStage.Arriving;Play(right?"walkLeft":"walkRight");
             await Move(_characterWindow,fromX,targetX,y,1150,token);
-            Stage=OverlayStage.Landing;Play("land");await Task.Delay(450,token);
+            Stage=OverlayStage.Landing;Play("land");await Task.Delay(1000,token);
             Stage=OverlayStage.Flourish;Play("flourish");await Task.Delay(player.Duration("flourish"),token);
             Play("idle");await Task.Delay(250,token);
             // Let native fonts, button templates and wrapping finish layout while invisible.

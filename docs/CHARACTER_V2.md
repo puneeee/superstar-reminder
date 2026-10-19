@@ -5,7 +5,7 @@ The stock character now uses 24 transparent, illustrated Rajinikanth poses rathe
 ## Reminder sequence
 
 1. A deliberate six-pose swagger walk brings him in from the configured bottom corner (about 1.15 seconds).
-2. He settles for 0.45 seconds, lifts/twirls/replaces his sunglasses, then pauses briefly.
+2. He settles for one second, lifts/twirls/replaces his sunglasses, then pauses briefly.
 3. The speech bubble fades in above his head. Only then does the 30-second response period begin.
 4. While awaiting your response he cycles through relaxed, attentive poses.
 5. **Yes:** pleased approval, a three-pose temple salute, then a brisk grounded walk across the screen. No running animation is selected.

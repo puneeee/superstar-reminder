@@ -50,9 +50,10 @@ foreach(var outcome in new[]{ReminderOutcome.Yes,ReminderOutcome.No,ReminderOutc
  PumpUntil(()=>CurrentBanner()?.IsVisible==true && CurrentBanner()?.Opacity==1,6500);
  Check("Banner follows flourish",overlay.Stage==OverlayStage.AwaitingResponse);
  var cwForLayout=(Window)typeof(DesktopOverlay).GetField("_characterWindow",BindingFlags.NonPublic|BindingFlags.Instance)!.GetValue(overlay)!;
- var bubbleBottom=CurrentBanner()!.Position.Y+CurrentBanner()!.Height;
- var expectedBottom=cwForLayout.Position.Y+cwForLayout.Height*OverlayPresentation.HeadInsetFraction-OverlayPresentation.BubbleGap;
- Check("Bubble is next to head",Math.Abs(bubbleBottom-expectedBottom)<3);
+ var overlayScale=main.Screens.Primary!.Scaling;
+ var bubbleBottom=CurrentBanner()!.Position.Y+CurrentBanner()!.Bounds.Height*overlayScale;
+ var expectedBottom=cwForLayout.Position.Y+(cwForLayout.Height*OverlayPresentation.HeadInsetFraction-OverlayPresentation.BubbleGap)*overlayScale;
+ Check("Bubble is next to head",Math.Abs(bubbleBottom-expectedBottom)<3*overlayScale);
  var banner=CurrentBanner()!;
  if(output is not null && outcome==ReminderOutcome.Yes)
  {
