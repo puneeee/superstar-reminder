@@ -21,6 +21,14 @@ Check("Editor renders",editor.Content is Grid);
 var catalog=new CharacterCatalog();Check("Character catalog loads packages",catalog.All.Count>=2);
 foreach(var character in catalog.All)
 {
+ using var manifest=System.Text.Json.JsonDocument.Parse(File.ReadAllText(character.ManifestPath));
+ foreach(var frame in manifest.RootElement.GetProperty("actions").EnumerateObject().SelectMany(a=>a.Value.GetProperty("frames").EnumerateArray().Select(f=>f.GetString()!)).Distinct())
+ {
+  var path=CharacterCatalog.FramePath(character,frame);
+  Check("Frame exists: "+frame,path is not null && new FileInfo(path).Length>0);
+  using var decoded=new Avalonia.Media.Imaging.Bitmap(path!);
+  Check("Frame decodes: "+frame,decoded.PixelSize.Width>0 && decoded.PixelSize.Height>0);
+ }
  using var player=new CharacterPlayer(new Image(),character);Check("Character frames load: "+character.Id,player.HasFrames);
 }
 Check("Package traversal rejected",CharacterCatalog.FramePath(catalog.Default,"../../../../../README.md") is null);
