@@ -30,13 +30,13 @@ jobs:
       - run: dotnet run --project tests/SuperstarReminder.UiTests --configuration Release
         env:
           SUPERSTAR_TEST_SCREENSHOTS: artifacts/ui-review
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: UI-review-${{ matrix.rid }}
           path: artifacts/ui-review
       - run: dotnet publish src/SuperstarReminder --configuration Release --runtime ${{ matrix.rid }} --self-contained true --output artifacts/${{ matrix.rid }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: SuperstarReminder-${{ matrix.rid }}
           path: artifacts/${{ matrix.rid }}
