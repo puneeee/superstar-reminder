@@ -21,7 +21,7 @@ public sealed class SettingsWindow : Window
         void Add(string label,Control c){panel.Children.Add(new TextBlock{Text=label,Foreground=Brush.Parse("#AAB5CC"),FontSize=12});panel.Children.Add(c);}
         Add("MySQL server",server);Add("Port",port);Add("Database",database);Add("Application user",user);Add("Password (protected with your OS user account)",password);
         var corner=new ComboBox{ItemsSource=Enum.GetValues<ScreenCorner>(),SelectedItem=current.Corner};Add("Primary monitor corner",corner);
-        var size=new Slider{Minimum=.12,Maximum=.30,Value=current.HeightFraction,TickFrequency=.01};Add("Character height · 12–30% of the usable screen",size);
+        var size=new Slider{Minimum=.18,Maximum=.40,Value=current.HeightFraction,TickFrequency=.01};Add("Character height · 18–40% of the usable screen",size);
         var characters=catalog.All.ToList();var picker=new ComboBox{ItemsSource=characters.Select(x=>x.DisplayName).ToList(),SelectedIndex=Math.Max(0,characters.FindIndex(x=>x.Id==current.CharacterId))};Add("Character",picker);
         picker.SelectionChanged+=(_,_)=>{if(picker.SelectedIndex>=0)size.Value=characters[picker.SelectedIndex].DefaultHeightFraction;};
         var startup=new CheckBox{Content="Start at login",IsChecked=current.StartAtLogin};panel.Children.Add(startup);

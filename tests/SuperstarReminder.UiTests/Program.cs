@@ -46,7 +46,13 @@ Window? CurrentBanner()=>typeof(DesktopOverlay).GetField("_banner",BindingFlags.
 foreach(var outcome in new[]{ReminderOutcome.Yes,ReminderOutcome.No,ReminderOutcome.Snoozed,ReminderOutcome.Unanswered})
 {
  var request=overlay.PresentAsync(main,ReminderFactory.WaterEvery(45),catalog.Default,new LocalSettings(),CancellationToken.None);
- PumpUntil(()=>CurrentBanner()?.IsVisible==true,5000);
+ Check("Banner hidden during arrival",CurrentBanner()?.IsVisible!=true);
+ PumpUntil(()=>CurrentBanner()?.IsVisible==true && CurrentBanner()?.Opacity==1,6500);
+ Check("Banner follows flourish",overlay.Stage==OverlayStage.AwaitingResponse);
+ var cwForLayout=(Window)typeof(DesktopOverlay).GetField("_characterWindow",BindingFlags.NonPublic|BindingFlags.Instance)!.GetValue(overlay)!;
+ var bubbleBottom=CurrentBanner()!.Position.Y+CurrentBanner()!.Height;
+ var expectedBottom=cwForLayout.Position.Y+cwForLayout.Height*OverlayPresentation.HeadInsetFraction-OverlayPresentation.BubbleGap;
+ Check("Bubble is next to head",Math.Abs(bubbleBottom-expectedBottom)<3);
  var banner=CurrentBanner()!;
  if(output is not null && outcome==ReminderOutcome.Yes)
  {
@@ -60,7 +66,15 @@ foreach(var outcome in new[]{ReminderOutcome.Yes,ReminderOutcome.No,ReminderOutc
   var button=banner.GetVisualDescendants().OfType<Button>().Single(b=>b.Content?.ToString()==label);
   button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
  }
- PumpUntil(()=>request.IsCompleted,35000);
+ if(outcome!=ReminderOutcome.Unanswered)
+ {
+  PumpUntil(()=>overlay.Stage==OverlayStage.Reacting,2000);
+  Check("Response has visible emotion",overlay.ActiveAction==(outcome==ReminderOutcome.Yes?"happy":"sad"));
+  PumpUntil(()=>overlay.Stage==OverlayStage.Departing,4000);
+  Check("Walking, never running",!overlay.ActiveAction.StartsWith("run",StringComparison.Ordinal));
+  if(outcome!=ReminderOutcome.Yes)Check("Disappointed departure",overlay.ActiveAction.StartsWith("sadWalk",StringComparison.Ordinal));
+ }
+ PumpUntil(()=>request.IsCompleted,45000);
  var result=request.GetAwaiter().GetResult();Check("Overlay response: "+outcome,result.Outcome==outcome);
  if(outcome==ReminderOutcome.Snoozed)Check("Snooze selection returned",result.SnoozeMinutes==5);
  Check("Overlay windows cleaned up",CurrentBanner() is null);

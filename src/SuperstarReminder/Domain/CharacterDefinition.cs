@@ -1,6 +1,6 @@
 namespace SuperstarReminder.Domain;
 
-public enum CharacterAction { Enter, Idle, Happy, RunLeft, RunRight, WalkLeft, WalkRight }
+public enum CharacterAction { Enter, Idle, Happy, RunLeft, RunRight, WalkLeft, WalkRight, Land, Flourish, Salute, Sad, SadWalkLeft, SadWalkRight }
 
 public sealed record CharacterDefinition(
     string Id,

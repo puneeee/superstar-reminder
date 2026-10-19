@@ -37,4 +37,12 @@ Check("DST nonexistent time moves forward",ScheduleCalculator.ToUtc(new DateTime
 Check("DST repeated time resolves once",ScheduleCalculator.ToUtc(new DateTime(2026,11,1,1,30,0),zone)==At("2026-11-01T05:30:00Z"));
 var dst=daily with{TimeZoneId=zone.Id,StartsAtUtc=At("2026-03-07T14:00:00Z")};
 Check("Daily time stable across DST",ScheduleCalculator.Next(dst,At("2026-03-07T14:00:00Z"))==At("2026-03-08T13:00:00Z"));
+Check("Larger stock character",OverlayPresentation.CharacterHeight(1000,.30)==300);
+Check("Small desktop character fits",OverlayPresentation.CharacterHeight(450,.40)<=180);
+Check("High DPI uses logical height",OverlayPresentation.CharacterHeight(1600/2d,.30)==240);
+Check("Bubble follows actual height",Math.Abs(OverlayPresentation.BannerTop(500,300,170)-(500+300*.035-6-170))<.01);
+Check("Yes never selects running",OverlayPresentation.ExitAction(ReminderOutcome.Yes,true)=="walkLeft");
+Check("No uses disappointed walk",OverlayPresentation.ExitAction(ReminderOutcome.No,false)=="sadWalkRight");
+Check("Snooze uses disappointed walk",OverlayPresentation.ExitAction(ReminderOutcome.Snoozed,true)=="sadWalkLeft");
+Check("Sad walk is slower than approval",OverlayPresentation.WalkMilliseconds(400,false)>OverlayPresentation.WalkMilliseconds(400,true));
 Console.WriteLine($"{passed} scheduling checks passed.");

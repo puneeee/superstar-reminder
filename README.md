@@ -1,6 +1,6 @@
 # Superstar Reminder
 
-An animated desktop reminder app for **Windows and macOS**. A Jailer-inspired Superstar Rajinikanth character enters your primary screen, displays your reminder, and reacts to **Yes**, **No**, or **Snooze**.
+An animated desktop reminder app for **Windows and macOS**. An expressive illustrated Superstar Rajinikanth companion walks in, settles, twirls his glasses, and then shows a speech bubble close to his head. **Yes** brings approval, a salute and a brisk walk; **No** or **Snooze** brings a disappointed reaction and slower departure. [Animation and upgrade guide](docs/CHARACTER_V2.md).
 
 Built with **C# / .NET 8, Avalonia UI, and local MySQL**. Character images were newly generated for this project; they are not film footage or an endorsement by the performer.
 
@@ -219,7 +219,7 @@ dotnet run --project tests/SuperstarReminder.DatabaseTests
 
 Windows x64, macOS Apple Silicon, macOS Intel, and MySQL CI jobs have passed, covering **51 distinct automated checks**. Read [the validation record](docs/VALIDATION.md) for evidence and remaining acceptance work.
 
-This is an unsigned development build. Native click-through/focus, fullscreen/Spaces transitions, notifications, audio, startup and display scaling still need hands-on desktop acceptance testing. Signed installers and macOS notarization are not included. Generated character loops also need motion review.
+This is an unsigned development build. Native click-through/focus, fullscreen/Spaces transitions, notifications, audio, startup and display scaling still need hands-on desktop acceptance testing. Signed installers and macOS notarization are not included. The expressive illustrated choreography is covered by headless tests; perceived likeness and gait still need review on your physical desktop.
 
 | Path | Contents |
 | --- | --- |

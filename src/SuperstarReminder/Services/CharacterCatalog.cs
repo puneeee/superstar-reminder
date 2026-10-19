@@ -14,7 +14,7 @@ public sealed class CharacterCatalog : ICharacterCatalog
             {
                 using var json=JsonDocument.Parse(File.ReadAllText(path));var e=json.RootElement;
                 var height=e.GetProperty("defaultHeightFraction").GetDouble();
-                _characters.Add(new(e.GetProperty("id").GetString()!,e.GetProperty("displayName").GetString()!,path,Enum.GetValues<CharacterAction>().ToHashSet(),"top-center",Math.Clamp(height,.12,.30)));
+                _characters.Add(new(e.GetProperty("id").GetString()!,e.GetProperty("displayName").GetString()!,path,Enum.GetValues<CharacterAction>().ToHashSet(),"top-center",Math.Clamp(height,.18,.40)));
             }
             catch(Exception e) when(e is IOException or JsonException or KeyNotFoundException or InvalidOperationException){}
         }
